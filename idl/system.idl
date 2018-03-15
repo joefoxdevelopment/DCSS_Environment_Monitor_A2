@@ -1,1 +1,73 @@
 /* Put all IDL in here */
+
+#pragma prefix "com.joefox"
+
+module Nox {
+
+    /*
+     * Data structure for readings used by the system
+     *
+     * timestamp    - the UNIX timestamp that the reading was taken at
+     *                to be collected using Instant.now().getEpochSecond()
+     * value        - the value of the reading
+     * station_name - the name of the station that is reporting this reading
+     */
+    struct Reading {
+        long timestamp;
+        long value;
+        string station_name;
+    }
+
+    /*
+     * The monitoring station
+     *
+     * On top of the described functionality below, it needs to be able to send
+     * a request to its associated regional centre if it checks the sensor and
+     * the reading is above the threshold to alert. It gets an associated
+     * regional centre at start up. Sensor checking should be automatic (handled
+     * by a polling thread)
+     */
+    interface MonitoringStation {
+        Reading get_reading();
+        string get_station_location();
+        string get_station_name();
+        void reset();
+        void set_alert_threshold(in long threshold);
+        void turn_off();
+        void turn_on();
+    }
+
+    /*
+     * The regional centre
+     *
+     * Keep monitoring stations in a list
+     *
+     * It should automatically poll monitoring stations (thread with wait)
+     */
+    interface RegionalCentre {
+        void clear_log();
+        void get_current_readings();
+        void get_log();
+        void raise_alarm(in string location);
+        void register_monitoring_station(in string name);
+        void turn_off_monitoring_station(in string name);
+        void turn_on_monitoring_station(in string name);
+    }
+
+    /*
+     * The environmental centre
+     *
+     * Regional centres should be kept in a list, so that when they are polled
+     * for updates it can be iterated through
+     *
+     * The environment centre needs the functionality to register an agency too,
+     * which should store a list of names and emails and the locations that
+     * agency wants to monitor, so that when an affected location alerts, a
+     * reminder to send the data in an email is displayed. (Potential expansion
+     * to send the email automatically)
+     */
+    interface EnvironmentalCentre {
+        void raise_alarm(in string regional_centre_name);
+        void register_regional_centre(in string name);
+    }
+}
