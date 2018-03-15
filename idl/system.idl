@@ -16,7 +16,7 @@ module Nox {
         long timestamp;
         long value;
         string station_name;
-    }
+    };
 
     /*
      * The monitoring station
@@ -35,7 +35,7 @@ module Nox {
         void set_alert_threshold(in long threshold);
         void turn_off();
         void turn_on();
-    }
+    };
 
     /*
      * The regional centre
@@ -52,7 +52,7 @@ module Nox {
         void register_monitoring_station(in string name);
         void turn_off_monitoring_station(in string name);
         void turn_on_monitoring_station(in string name);
-    }
+    };
 
     /*
      * The environmental centre
@@ -69,5 +69,5 @@ module Nox {
     interface EnvironmentalCentre {
         void raise_alarm(in string regional_centre_name);
         void register_regional_centre(in string name);
-    }
-}
+    };
+};
