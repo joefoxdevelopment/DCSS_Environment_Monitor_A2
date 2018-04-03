@@ -1,2 +1,2 @@
 javac java/*.java
-javac java/**/*.java
+javac java/com/joefox/**/*.java
