@@ -1,1 +1,1 @@
-cd java && idlj -fall ../idl/*.idl
+idlj -fall -td java/ idl/*.idl

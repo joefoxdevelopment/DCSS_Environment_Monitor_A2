@@ -22,4 +22,4 @@
 hs_err_pid*
 
 # idlj generated files
-/java/Nox/*
+/java/com/joefox/corba
