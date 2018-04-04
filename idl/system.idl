@@ -14,8 +14,8 @@ module com {
              * station_name - the name of the station that is reporting this reading
              */
             struct Reading {
-                long timestamp;
-                long value;
+                float timestamp;
+                float value;
                 string station_name;
             };
 
