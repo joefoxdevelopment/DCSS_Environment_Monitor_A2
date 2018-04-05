@@ -1,5 +1,5 @@
 package com.joefox.clients;
 
-class RegionalCentreClient {
+public class RegionalCentreClient {
 
 }

@@ -2,6 +2,6 @@ package com.joefox.servers;
 
 import com.joefox.corba.EnvironmentalCentrePOA;
 
-class EnvironmentalCentreServer /*extends EnvironmentalCentrePOA*/ {
+public class EnvironmentalCentreServer /*extends EnvironmentalCentrePOA*/ {
 
 }

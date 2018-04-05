@@ -6,7 +6,7 @@ import com.joefox.corba.EnvironmentalCentreHelper;
 import org.omg.CORBA.*;
 import org.omg.CosNaming.*;
 
-class EnvironmentalCentreClient {
+public class EnvironmentalCentreClient {
 
     /**
      * Store a reference to the EnvironmentalCentre server implementation

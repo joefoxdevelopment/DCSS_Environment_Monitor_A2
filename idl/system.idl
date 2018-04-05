@@ -1,6 +1,5 @@
 /* Put all IDL in here */
 
-#pragma prefix "com.joefox"
 module com {
     module joefox {
         module corba {
