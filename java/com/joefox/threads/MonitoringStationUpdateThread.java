@@ -1,5 +1,6 @@
 package com.joefox.threads;
 
+import com.joefox.clients.RegionalCentreClient;
 import com.joefox.corba.Reading;
 import com.joefox.servants.MonitoringStationServant;
 
@@ -12,9 +13,10 @@ import com.joefox.servants.MonitoringStationServant;
  * @author Joe Fox U1454236
  * @version 2018-04-05
  */
-public class MonitoringStationThread extends Thread {
+public class MonitoringStationUpdateThread extends Thread {
 
     private MonitoringStationServant servant;
+    private RegionalCentreClient client;
 
     /**
      * Class constructor
@@ -22,7 +24,11 @@ public class MonitoringStationThread extends Thread {
      * @param servant the MonitoringStationServant to get readings from
      * TODO ADD the REGIONALCENTRECLIENT as a param
      */
-    public MonitoringStationThread(MonitoringStationServant servant) {
+    public MonitoringStationUpdateThread(
+        MonitoringStationServant servant,
+        RegionalCentreClient client
+    ) {
+        this.client  = client;
         this.servant = servant;
     }
 
@@ -36,7 +42,7 @@ public class MonitoringStationThread extends Thread {
         while (!endThread) {
             reading = this.servant.get_reading();
 
-            this.servant.sendReadingToRegionalCentre(reading);
+            //this.client.sendReadingToRegionalCentre(reading);
 
             try {
                 sleep(5000);
