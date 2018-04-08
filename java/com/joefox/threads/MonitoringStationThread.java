@@ -36,7 +36,7 @@ public class MonitoringStationThread extends Thread {
         while (!endThread) {
             reading = this.servant.get_reading();
 
-            this.servant.sendReadingToMonitoringStation(reading);
+            this.servant.sendReadingToRegionalCentre(reading);
 
             try {
                 sleep(5000);
