@@ -1,10 +1,17 @@
 package com.joefox.centres;
 
-//import com.joefox.clients.RegionalCentreClient;
+import com.joefox.clients.RegionalCentreClient;
+import com.joefox.corba.*;
 import com.joefox.servants.MonitoringStationServant;
-import com.joefox.threads.MonitoringStationThread;
+import com.joefox.threads.MonitoringStationServantThread;
+import com.joefox.threads.MonitoringStationUpdateThread;
 
 import java.util.Scanner;
+
+import org.omg.CORBA.*;
+import org.omg.PortableServer.*;
+import org.omg.PortableServer.POA;
+import org.omg.CosNaming.*;
 
 /**
  * Monitoring station class.
@@ -17,8 +24,13 @@ import java.util.Scanner;
  */
 public class MonitoringStation {
 
-    MonitoringStationServant servant;
-    MonitoringStationThread thread;
+    private MonitoringStationServant servant;
+    private MonitoringStationServantThread servantThread;
+    private MonitoringStationUpdateThread thread;
+    private RegionalCentreClient client;
+
+    private String stationLocation;
+    private String stationName;
 
     /**
      * Constructor for MonitoringStation objects.
@@ -26,14 +38,20 @@ public class MonitoringStation {
      */
     public MonitoringStation (
         String stationLocation,
-        String stationName
+        String stationName,
+        String args[]
     ) {
+        this.stationLocation = stationLocation;
+        this.stationName     = stationName;
+
+        this.client = new RegionalCentreClient();
+
         this.servant = new MonitoringStationServant(
             stationLocation,
             stationName
         );
 
-        this.bindToNamingService();
+        this.bindToNamingService(args);     //START A NEW THREAD FOR THIS
         this.registerWithRegionalCentre();
         this.startCheckInThread();
 
@@ -47,12 +65,57 @@ public class MonitoringStation {
     /**
      * Bind this MonitoringStationServant to the naming service
      */
-    private void bindToNamingService() {
-        //TODO we need the naming service details passed through as an arg
+    private void bindToNamingService(String args[]) {
+        try {
+            //Init ORB
+            ORB orb = ORB.init(args, null);
+
+            //Reference POA and activate manager
+            POA rootpoa = POAHelper.narrow(
+                orb.resolve_initial_references("RootPOA")
+            );
+            rootpoa.the_POAManager().activate();
+
+            //Get object reference from the servant
+            org.omg.CORBA.Object ref = rootpoa.servant_to_reference(
+                this.servant
+            );
+            com.joefox.corba.MonitoringStation msRef =
+                MonitoringStationHelper.narrow(ref);
+
+            //Get a reference from the naming service
+            org.omg.CORBA.Object nameServiceObj =
+                orb.resolve_initial_references("NameService");
+            if (null == nameServiceObj) {
+                throw new Exception("Null nameServiceObj");
+            }
+
+            // Use NamingContextExt which is part of the Interoperable
+            // Naming Service (INS) specification.
+            NamingContextExt nameService = NamingContextExtHelper.narrow(
+                nameServiceObj
+            );
+            if (null == nameService) {
+                throw new Exception("null nameService");
+            }
+
+            NameComponent[] name = nameService.to_name(this.stationName);
+            nameService.rebind(name, msRef);
+
+            this.servantThread = new MonitoringStationServantThread(orb);
+            this.servantThread.start();
+        } catch ( Exception e ) {
+            System.out.println(String.format(
+                "Unable to register the Monitoring Station with the " +
+                "naming service.\n%s",
+                e.getMessage()
+            ));
+            System.exit(1);
+        }
     }
 
     private void startCheckInThread() {
-        this.thread = new MonitoringStationThread(this.servant);
+        this.thread = new MonitoringStationUpdateThread(this.servant, this.client);
 
         this.thread.start();
     }
@@ -67,7 +130,9 @@ public class MonitoringStation {
         boolean closeApp = false;
 
         while (!closeApp) {
-            System.out.println("Enter a positive numeric value or the word \"exit\"");
+            System.out.println(
+                "Enter a positive numeric value or the word \"exit\""
+            );
             input = scanner.nextLine();
 
             if ("exit".equals(input)) {

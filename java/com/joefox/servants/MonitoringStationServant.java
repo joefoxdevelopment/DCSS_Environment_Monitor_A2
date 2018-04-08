@@ -51,7 +51,8 @@ public class MonitoringStationServant extends MonitoringStationPOA {
         return new Reading(
             (float) instant.getEpochSecond(),
             this.currentSensorValue,
-            this.stationName
+            this.stationName,
+            this.stationLocation
         );
     }
 
@@ -119,15 +120,5 @@ public class MonitoringStationServant extends MonitoringStationPOA {
      */
     public void setSensorValue (float value) {
         this.currentSensorValue = value;
-    }
-
-    /**
-     * Use the RegionalCentreClient to send updated readings to the regional
-     * centre
-     *
-     * @param reading the Reading object to send
-     */
-    public void sendReadingToRegionalCentre (Reading reading) {
-        //TODO after client is implemented
     }
 }

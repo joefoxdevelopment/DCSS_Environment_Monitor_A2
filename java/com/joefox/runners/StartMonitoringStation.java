@@ -26,6 +26,7 @@ public class StartMonitoringStation {
             System.out.println("    Monitoring Station Location");
         }
 
-        MonitoringStation station = new MonitoringStation(args[0], args[1]);
+        MonitoringStation station =
+            new MonitoringStation(args[0], args[1], args);
     }
 }
