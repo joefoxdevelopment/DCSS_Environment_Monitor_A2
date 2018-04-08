@@ -16,6 +16,7 @@ module com {
                 float timestamp;
                 float value;
                 string station_name;
+                string station_location;
             };
 
             /*
