@@ -6,25 +6,23 @@ import org.omg.PortableServer.POA;
 import org.omg.CosNaming.*;
 
 /**
- * Class to contain the thread for the MonitoringStation's automatic polling
- * functionality
+ * Class to contain the thread to contain each ORB
  *
  * @extends java.lang.Thread
  *
  * @author Joe Fox U1454236
  * @version 2018-04-08
  */
-public class MonitoringStationServantThread extends Thread {
+public class OrbThread extends Thread {
 
     private ORB orb;
 
     /**
      * Class constructor
      *
-     * @param servant the MonitoringStationServant to get readings from
-     * TODO ADD the REGIONALCENTRECLIENT as a param
+     * @param The ORB object to run
      */
-    public MonitoringStationServantThread(ORB orb) {
+    public OrbThread(ORB orb) {
         this.orb = orb;
     }
 

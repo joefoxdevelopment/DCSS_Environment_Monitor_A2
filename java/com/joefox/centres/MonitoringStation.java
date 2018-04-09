@@ -3,7 +3,7 @@ package com.joefox.centres;
 import com.joefox.clients.RegionalCentreClient;
 import com.joefox.corba.*;
 import com.joefox.servants.MonitoringStationServant;
-import com.joefox.threads.MonitoringStationServantThread;
+import com.joefox.threads.OrbThread;
 import com.joefox.threads.MonitoringStationUpdateThread;
 
 import java.util.Scanner;
@@ -25,10 +25,11 @@ import org.omg.CosNaming.*;
 public class MonitoringStation {
 
     private MonitoringStationServant servant;
-    private MonitoringStationServantThread servantThread;
+    private OrbThread servantThread;
     private MonitoringStationUpdateThread thread;
     private RegionalCentreClient client;
 
+    private String regionalCentre;
     private String stationLocation;
     private String stationName;
 
@@ -39,12 +40,14 @@ public class MonitoringStation {
     public MonitoringStation (
         String stationLocation,
         String stationName,
+        String regionalCentre,
         String args[]
     ) {
+        this.regionalCentre  = regionalCentre;
         this.stationLocation = stationLocation;
         this.stationName     = stationName;
 
-        this.client = new RegionalCentreClient();
+        this.client = new RegionalCentreClient(regionalCentre);
 
         this.servant = new MonitoringStationServant(
             stationLocation,
@@ -102,7 +105,7 @@ public class MonitoringStation {
             NameComponent[] name = nameService.to_name(this.stationName);
             nameService.rebind(name, msRef);
 
-            this.servantThread = new MonitoringStationServantThread(orb);
+            this.servantThread = new OrbThread(orb);
             this.servantThread.start();
         } catch ( Exception e ) {
             System.out.println(String.format(
