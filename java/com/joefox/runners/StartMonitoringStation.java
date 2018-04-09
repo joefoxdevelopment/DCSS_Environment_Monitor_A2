@@ -18,15 +18,22 @@ public class StartMonitoringStation {
             0 == args.length ||
             null == args[0] ||
             null == args[1] ||
+            null == args[2] ||
             "".equals(args[0]) ||
-            "".equals(args[1])
+            "".equals(args[1]) ||
+            "".equals(args[2])
         ) {
             System.out.println("Command line arguments are required.");
             System.out.println("    Monitoring Station Name");
             System.out.println("    Monitoring Station Location");
+            System.out.println("    Regional Centre Name");
         }
 
-        MonitoringStation station =
-            new MonitoringStation(args[0], args[1], args);
+        MonitoringStation station = new MonitoringStation(
+            args[0],
+            args[1],
+            args[2],
+            args
+        );
     }
 }

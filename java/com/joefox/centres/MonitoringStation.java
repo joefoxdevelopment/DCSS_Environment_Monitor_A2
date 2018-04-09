@@ -25,8 +25,8 @@ import org.omg.CosNaming.*;
 public class MonitoringStation {
 
     private MonitoringStationServant servant;
-    private OrbThread servantThread;
     private MonitoringStationUpdateThread thread;
+    private OrbThread servantThread;
     private RegionalCentreClient client;
 
     private String regionalCentre;
@@ -47,7 +47,7 @@ public class MonitoringStation {
         this.stationLocation = stationLocation;
         this.stationName     = stationName;
 
-        this.client = new RegionalCentreClient(regionalCentre);
+        this.client = new RegionalCentreClient(regionalCentre, args);
 
         this.servant = new MonitoringStationServant(
             stationLocation,
