@@ -42,7 +42,9 @@ public class MonitoringStationUpdateThread extends Thread {
         while (!endThread) {
             reading = this.servant.get_reading();
 
-            //this.client.sendReadingToRegionalCentre(reading);
+            if (null != reading) {
+                this.client.sendReadingToRegionalCentre(reading);
+            }
 
             try {
                 sleep(5000);

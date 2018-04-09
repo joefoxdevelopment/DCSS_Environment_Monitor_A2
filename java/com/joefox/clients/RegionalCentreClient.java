@@ -53,4 +53,14 @@ public class RegionalCentreClient {
         }
     }
 
+    public void sendReadingToRegionalCentre(Reading reading) {
+        try {
+            this.centre.submit_reading(reading);
+        } catch (Exception e) {
+            System.out.println(String.format(
+                "Unable to submit reading to regional centre \n%s",
+                e.getMessage()
+            ));
+        }
+    }
 }

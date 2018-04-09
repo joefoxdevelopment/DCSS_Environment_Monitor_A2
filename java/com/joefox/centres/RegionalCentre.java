@@ -6,6 +6,7 @@ import com.joefox.corba.*;
 import com.joefox.servants.RegionalCentreServant;
 import com.joefox.threads.OrbThread;
 
+import java.time.Instant;
 import java.util.ArrayList;
 
 import org.omg.CORBA.*;
@@ -20,6 +21,7 @@ public class RegionalCentre {
     private RegionalCentreServant servant;
 
     private ArrayList<MonitoringStationClient> monitoringStations;
+    private ArrayList<String> log;
     private String args[];
     private String centreName;
     private String envCentreName;
@@ -32,11 +34,11 @@ public class RegionalCentre {
         this.args               = args;
         this.centreName         = centreName;
         this.envCentreName      = envCentreName;
+        this.log                = new ArrayList<String>();
         this.monitoringStations = new ArrayList<MonitoringStationClient>();
 
         this.envCentreClient = new EnvironmentalCentreClient(envCentreName);
-
-        this.servant = new RegionalCentreServant(this);
+        this.servant         = new RegionalCentreServant(this);
 
         this.bindToNamingService(args);
     }
@@ -106,6 +108,20 @@ public class RegionalCentre {
                 e.getMessage()
             ));
         }
+    }
+
+    public void addReadingToLog(Reading reading) {
+        String readingString = String.format(
+            "Reading from %s %s, value: %s, taken at %s",
+            reading.station_name,
+            reading.station_location,
+            reading.value,
+            Instant.ofEpochSecond((long) reading.timestamp).toString()
+        );
+
+        System.out.println(readingString);
+
+        log.add(readingString);
     }
 
 }

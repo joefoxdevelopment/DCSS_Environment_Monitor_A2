@@ -49,10 +49,10 @@ module com {
                 void clear_log();
                 void get_current_readings();
                 void get_log();
-                void raise_alarm(in string location);
                 void register_monitoring_station(in string name);
                 void turn_off_monitoring_station(in string name);
                 void turn_on_monitoring_station(in string name);
+                void submit_reading(in Reading reading);
             };
 
             /*

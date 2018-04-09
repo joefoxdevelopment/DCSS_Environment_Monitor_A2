@@ -2,6 +2,7 @@ package com.joefox.servants;
 
 import com.joefox.centres.RegionalCentre;
 import com.joefox.corba.RegionalCentrePOA;
+import com.joefox.corba.Reading;
 
 public class RegionalCentreServant extends RegionalCentrePOA {
 
@@ -23,10 +24,6 @@ public class RegionalCentreServant extends RegionalCentrePOA {
         System.out.println("get_log called");
     }
 
-    public void raise_alarm (String location) {
-        System.out.println("raise_alarm called at " + location);
-    }
-
     public void register_monitoring_station (String name) {
         System.out.println("register_monitoring_station called at " + name);
         this.centre.createMonitoringStationClient(name);
@@ -38,6 +35,10 @@ public class RegionalCentreServant extends RegionalCentrePOA {
 
     public void turn_on_monitoring_station (String name) {
         System.out.println("turn_on_monitoring_station called at " + name);
+    }
+
+    public void submit_reading (Reading reading) {
+        this.centre.addReadingToLog(reading);
     }
 
 }

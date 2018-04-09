@@ -20,7 +20,7 @@ public class MonitoringStationServant extends MonitoringStationPOA {
     private String stationLocation   = "";
     private String stationName       = "";
 
-    private boolean on;
+    private boolean on = true;
 
     /**
      * Class constructor
