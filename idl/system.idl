@@ -45,12 +45,10 @@ module com {
              * It should automatically poll monitoring stations (thread with wait)
              */
             interface RegionalCentre {
+                string get_current_readings();
+                string get_log();
                 void clear_log();
-                void get_current_readings();
-                void get_log();
                 void register_monitoring_station(in string name);
-                void turn_off_monitoring_station(in string name);
-                void turn_on_monitoring_station(in string name);
                 void submit_reading(in Reading reading);
             };
 

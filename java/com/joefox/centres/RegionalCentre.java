@@ -113,24 +113,21 @@ public class RegionalCentre {
     }
 
     public void addReadingToLog(Reading reading) {
-        String readingString = String.format(
-            "Reading from %s %s, value: %s, taken at %s",
-            reading.station_name,
-            reading.station_location,
-            reading.value,
-            Instant.ofEpochSecond((long) reading.timestamp).toString()
-        );
+        String readingString = this.stringifyReading(reading);
 
         System.out.println(readingString);
 
-        if (this.ALERT_THRESHOLD <= reading.value) {
-            if (this.verifyAlert(reading.station_location)) {
-                //pass reading up to env centre
-                System.out.println("High reading confirmed, passing to env centre");
-            }
+        if (this.ALERT_THRESHOLD <= reading.value &&
+            this.verifyAlert(reading.station_location)
+        ) {
+            this.log.add(String.format(
+                "Confirmed high reading at %s",
+                reading.station_location
+            ));
+            System.out.println("High reading confirmed, passing to env centre");
         }
 
-        log.add(readingString);
+        this.log.add(readingString);
     }
 
     private boolean verifyAlert(String location) {
@@ -145,5 +142,42 @@ public class RegionalCentre {
         }
 
         return aboveThresholdValues > 1;
+    }
+
+    public String getLog() {
+        String logString = "";
+
+        for (String entry: this.log) {
+            logString = logString + "\n" + entry;
+        }
+
+        return logString;
+    }
+
+    public void clearLog() {
+        this.log.clear();
+    }
+
+    public String getReadings() {
+        String readingsString = "";
+        Reading reading;
+
+        for (MonitoringStationClient client: monitoringStations) {
+            readingsString = readingsString + "\n" + this.stringifyReading(
+                client.getReading()
+            );
+        }
+
+        return readingsString;
+    }
+
+    private String stringifyReading(Reading reading) {
+        return String.format(
+            "Reading from %s %s, value: %s, taken at %s",
+            reading.station_name,
+            reading.station_location,
+            reading.value,
+            Instant.ofEpochSecond((long) reading.timestamp).toString()
+        );
     }
 }
