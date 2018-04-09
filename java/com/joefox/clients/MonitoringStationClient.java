@@ -33,10 +33,34 @@ public class MonitoringStationClient {
             );
         } catch (Exception e) {
             System.out.println(String.format(
-                "Unable to find a regional centre in the naming service \n%s",
+                "Unable to find the station in the naming service \n%s",
                 e.getMessage()
             ));
         }
+    }
+
+    public String getStationLocation() {
+        try {
+            return this.station.get_station_location();
+        } catch (Exception e) {
+            System.out.println(String.format(
+                "Unable to get the stations name \n%s",
+                e.getMessage()
+            ));
+        }
+        return "";
+    }
+
+    public Reading getReading() {
+        try {
+            return this.station.get_reading();
+        } catch (Exception e) {
+            System.out.println(String.format(
+                "Unable to get the stations reading \n%s",
+                e.getMessage()
+            ));
+        }
+        return null;
     }
 
 }

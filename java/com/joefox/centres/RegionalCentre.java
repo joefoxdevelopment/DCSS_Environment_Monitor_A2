@@ -26,6 +26,8 @@ public class RegionalCentre {
     private String centreName;
     private String envCentreName;
 
+    public static final float ALERT_THRESHOLD = (float) 200.0;
+
     public RegionalCentre(
         String centreName,
         String envCentreName,
@@ -121,7 +123,27 @@ public class RegionalCentre {
 
         System.out.println(readingString);
 
+        if (this.ALERT_THRESHOLD <= reading.value) {
+            if (this.verifyAlert(reading.station_location)) {
+                //pass reading up to env centre
+                System.out.println("High reading confirmed, passing to env centre");
+            }
+        }
+
         log.add(readingString);
     }
 
+    private boolean verifyAlert(String location) {
+        int aboveThresholdValues = 0;
+
+        for (MonitoringStationClient station: monitoringStations) {
+            if (location.equals(station.getStationLocation())) {
+                if (200 <= station.getReading().value) {
+                    aboveThresholdValues++;
+                }
+            }
+        }
+
+        return aboveThresholdValues > 1;
+    }
 }
