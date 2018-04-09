@@ -63,4 +63,38 @@ public class MonitoringStationClient {
         return null;
     }
 
+    public void turnOn() {
+        try {
+            this.station.turn_on();
+        } catch (Exception e) {
+            System.out.println(String.format(
+                "Unable to turn station on \n%s",
+                e.getMessage()
+            ));
+        }
+    }
+
+    public void turnOff() {
+        try {
+            this.station.turn_off();
+        } catch (Exception e) {
+            System.out.println(String.format(
+                "Unable to turn station off \n%s",
+                e.getMessage()
+            ));
+        }
+
+    }
+
+    public void reset() {
+        try {
+            this.station.reset();
+        } catch (Exception e) {
+            System.out.println(String.format(
+                "Unable to reset station sensor \n%s",
+                e.getMessage()
+            ));
+        }
+    }
+
 }
