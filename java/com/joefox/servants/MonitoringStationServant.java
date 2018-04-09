@@ -86,14 +86,6 @@ public class MonitoringStationServant extends MonitoringStationPOA {
         this.currentSensorValue = 0;
     }
 
-    public void set_alert_threshold (int threshold) {
-        if (!this.on) {
-            return;
-        }
-
-        this.alertThreshold = threshold;
-    }
-
     /**
      * Set the monitoring station to be inactive
      */

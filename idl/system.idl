@@ -33,7 +33,6 @@ module com {
                 string get_station_location();
                 string get_station_name();
                 void reset();
-                void set_alert_threshold(in long threshold);
                 void turn_off();
                 void turn_on();
             };
