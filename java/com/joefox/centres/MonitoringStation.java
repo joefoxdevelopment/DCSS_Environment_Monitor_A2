@@ -38,8 +38,8 @@ public class MonitoringStation {
      * Initialise the servant and bind to naming service and regional centre.
      */
     public MonitoringStation (
-        String stationLocation,
         String stationName,
+        String stationLocation,
         String regionalCentre,
         String args[]
     ) {
@@ -161,10 +161,12 @@ public class MonitoringStation {
     }
 
     /**
-     * Pass whatever the Regional Centre will need to manage its Monitoring
-     * Stations
+     * Pass the station name so that the regional centre can create a client for
+     * this monitoing station
      */
     private void registerWithRegionalCentre() {
-        //TODO
+        this.client.registerMonitoringStationWithRegionalCentre(
+            this.stationName
+        );
     }
 }

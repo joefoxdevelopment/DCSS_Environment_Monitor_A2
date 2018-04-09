@@ -3,15 +3,15 @@ package com.joefox.centres;
 import com.joefox.clients.EnvironmentalCentreClient;
 import com.joefox.clients.MonitoringStationClient;
 import com.joefox.corba.*;
-import com.joefox.threads.OrbThread;
 import com.joefox.servants.RegionalCentreServant;
+import com.joefox.threads.OrbThread;
 
 import java.util.ArrayList;
 
 import org.omg.CORBA.*;
+import org.omg.CosNaming.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
-import org.omg.CosNaming.*;
 
 public class RegionalCentre {
 
@@ -19,6 +19,8 @@ public class RegionalCentre {
     private OrbThread servantThread;
     private RegionalCentreServant servant;
 
+    private ArrayList<MonitoringStationClient> monitoringStations;
+    private String args[];
     private String centreName;
     private String envCentreName;
 
@@ -27,12 +29,14 @@ public class RegionalCentre {
         String envCentreName,
         String args[]
     ) {
-        this.centreName    = centreName;
-        this.envCentreName = envCentreName;
+        this.args               = args;
+        this.centreName         = centreName;
+        this.envCentreName      = envCentreName;
+        this.monitoringStations = new ArrayList<MonitoringStationClient>();
 
         this.envCentreClient = new EnvironmentalCentreClient(envCentreName);
 
-        this.servant = new RegionalCentreServant();
+        this.servant = new RegionalCentreServant(this);
 
         this.bindToNamingService(args);
     }
@@ -83,6 +87,24 @@ public class RegionalCentre {
                 e.getMessage()
             ));
             System.exit(1);
+        }
+    }
+
+    public void createMonitoringStationClient(String stationName) {
+        try {
+            MonitoringStationClient msClient = new MonitoringStationClient(
+                stationName,
+                this.args
+            );
+
+            if (null == msClient) return;
+
+            this.monitoringStations.add(msClient);
+        } catch (Exception e) {
+            System.out.println(String.format(
+                "Unable to create a client for the monitoring station \n%s",
+                e.getMessage()
+            ));
         }
     }
 

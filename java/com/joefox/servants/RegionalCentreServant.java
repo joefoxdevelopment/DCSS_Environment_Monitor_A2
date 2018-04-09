@@ -1,11 +1,14 @@
 package com.joefox.servants;
 
+import com.joefox.centres.RegionalCentre;
 import com.joefox.corba.RegionalCentrePOA;
 
 public class RegionalCentreServant extends RegionalCentrePOA {
 
-    public RegionalCentreServant() {
+    private RegionalCentre centre;
 
+    public RegionalCentreServant(RegionalCentre centre) {
+        this.centre = centre;
     }
 
     public void clear_log() {
@@ -26,6 +29,7 @@ public class RegionalCentreServant extends RegionalCentrePOA {
 
     public void register_monitoring_station (String name) {
         System.out.println("register_monitoring_station called at " + name);
+        this.centre.createMonitoringStationClient(name);
     }
 
     public void turn_off_monitoring_station (String name) {

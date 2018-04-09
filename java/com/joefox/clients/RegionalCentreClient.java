@@ -28,11 +28,9 @@ public class RegionalCentreClient {
                 throw new Exception("nameService null");
             }
 
-            centre = RegionalCentreHelper.narrow(
+            this.centre = RegionalCentreHelper.narrow(
                 nameService.resolve_str(this.centreName)
             );
-
-            centre.get_current_readings();
         } catch (Exception e) {
             System.out.println(String.format(
                 "Unable to find a regional centre in the naming service \n%s",
@@ -41,6 +39,18 @@ public class RegionalCentreClient {
             System.exit(1);
         }
 
+    }
+
+    public void registerMonitoringStationWithRegionalCentre(String name) {
+        try {
+            this.centre.register_monitoring_station(name);
+        } catch (Exception e) {
+            System.out.println(String.format(
+                "Unable to register station with regional centre \n%s",
+                e.getMessage()
+            ));
+            System.exit(1);
+        }
     }
 
 }
