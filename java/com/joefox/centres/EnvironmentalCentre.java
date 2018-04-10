@@ -131,6 +131,7 @@ public class EnvironmentalCentre {
             System.out.println("Main Menu - Select an Option");
             System.out.println("1) Register an agency");
             System.out.println("2) View a regional centre's log");
+            System.out.println("3) Clear a monitoring stations log");
 
             try {
                 option = Integer.parseInt(scanner.nextLine());
@@ -144,6 +145,9 @@ public class EnvironmentalCentre {
                     break;
                 case 2:
                     this.viewRegionalCentreLog(scanner);
+                    break;
+                case 3:
+                    this.clearRegionalCentreLog(scanner);
                     break;
                 default:
                     System.out.println("Enter a valid menu option\n\n\n\n");
@@ -193,5 +197,22 @@ public class EnvironmentalCentre {
             }
         }
         System.out.println("Unable to find a regional centre with that name");
+    }
+
+    private void clearRegionalCentreLog(Scanner scanner) {
+        System.out.println(
+            "Enter the name of the regional centre's logs to clear"
+        );
+
+        String name = scanner.nextLine();
+
+        for (RegionalCentreClient client: regionalCentres) {
+            if (client.getCentreName().equals(name)) {
+                client.clearLog();
+                return;
+            }
+        }
+        System.out.println("Unable to find a regional centre with that name");
+
     }
 }

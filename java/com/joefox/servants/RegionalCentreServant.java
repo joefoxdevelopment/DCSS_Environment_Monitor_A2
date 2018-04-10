@@ -35,5 +35,4 @@ public class RegionalCentreServant extends RegionalCentrePOA {
     public void submit_reading (Reading reading) {
         this.centre.addReadingToLog(reading);
     }
-
 }

@@ -75,6 +75,17 @@ public class RegionalCentreClient {
         return "No logs available";
     }
 
+    public void clearLog() {
+        try {
+            this.centre.clear_log();
+        } catch (Exception e) {
+            System.out.println(String.format(
+                "Unable to clear log from regional centre \n%s",
+                e.getMessage()
+            ));
+        }
+    }
+
     public String getCentreName() {
         return this.centreName;
     }
