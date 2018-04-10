@@ -65,7 +65,7 @@ module com {
              * to send the email automatically)
              */
             interface EnvironmentalCentre {
-                void raise_alarm(in string regional_centre_name);
+                void raise_alarm(in string regional_centre_name, in string location, in float reading);
                 void register_regional_centre(in string name);
             };
         };

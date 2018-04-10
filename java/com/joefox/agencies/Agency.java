@@ -11,10 +11,11 @@ public class Agency {
     private String email;
 
     public Agency(String name, String rawEmail) {
-        this.name = name;
+        this.name      = name;
+        this.locations = new ArrayList<String>();
 
         Pattern pattern = Pattern.compile(rawEmail);
-        Matcher matcher = Pattern.matcher("/^.+\@.+(\..+)+$/");
+        Matcher matcher = pattern.matcher("/^.+@.+(\\..+)+$/");
 
         boolean found = false;
 
@@ -31,10 +32,10 @@ public class Agency {
 
     public String toString() {
         return String.format(
-            "Agency: %s\nEmail: %s\nLocation subscriptions: %s"
+            "Agency: %s\nEmail: %s\nLocation subscriptions: %s",
             this.name,
             this.email,
-            String.join(", ", this.locations);
+            String.join(", ", this.locations)
         );
     }
 
