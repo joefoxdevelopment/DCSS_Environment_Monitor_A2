@@ -38,9 +38,15 @@ public class RegionalCentre {
         this.envCentreName      = envCentreName;
         this.log                = new ArrayList<String>();
         this.monitoringStations = new ArrayList<MonitoringStationClient>();
+        this.servant            = new RegionalCentreServant(this);
+        this.envCentreClient    = new EnvironmentalCentreClient(
+            envCentreName,
+            args
+        );
 
-        this.envCentreClient = new EnvironmentalCentreClient(envCentreName);
-        this.servant         = new RegionalCentreServant(this);
+        System.out.println(
+            "Started regional centre, listening for invocations"
+        );
 
         this.bindToNamingService(args);
     }

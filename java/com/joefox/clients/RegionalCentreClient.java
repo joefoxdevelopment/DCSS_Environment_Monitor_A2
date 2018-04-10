@@ -38,7 +38,6 @@ public class RegionalCentreClient {
             ));
             System.exit(1);
         }
-
     }
 
     public void registerMonitoringStationWithRegionalCentre(String name) {

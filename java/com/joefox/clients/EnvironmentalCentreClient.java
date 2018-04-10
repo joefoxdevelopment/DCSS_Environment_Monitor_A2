@@ -11,14 +11,37 @@ public class EnvironmentalCentreClient {
     /**
      * Store a reference to the EnvironmentalCentre server implementation
      */
-    EnvironmentalCentre server;
+    private String centreName;
+    private com.joefox.corba.EnvironmentalCentre centre;
 
-    public EnvironmentalCentreClient(String name) {
-        //Initialise the ORB
+    public EnvironmentalCentreClient(String centreName, String args[]) {
+        this.centreName = centreName;
 
-        //Get naming service reference and connect to it
+        try {
+            ORB orb = ORB.init(args, null);
 
-        //Look for a matching EnvironmentCentre object in the naming service
+            org.omg.CORBA.Object nameServiceObj =
+                orb.resolve_initial_references ("NameService");
+            if (null == nameServiceObj) {
+                throw new Exception("nameServiceObj null");
+            }
+            NamingContextExt nameService = NamingContextExtHelper.narrow(
+                nameServiceObj
+            );
+            if (null == nameService) {
+                throw new Exception("nameService null");
+            }
+
+            this.centre = EnvironmentalCentreHelper.narrow(
+                nameService.resolve_str(this.centreName)
+            );
+        } catch (Exception e) {
+            System.out.println(String.format(
+                "Unable to find a env centre in the naming service \n%s",
+                e.getMessage()
+            ));
+            System.exit(1);
+        }
     }
 
 }
