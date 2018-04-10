@@ -145,7 +145,7 @@ public class RegionalCentre {
 
         for (MonitoringStationClient station: monitoringStations) {
             if (location.equals(station.getStationLocation())) {
-                if (200 <= station.getReading().value) {
+                if (this.ALERT_THRESHOLD <= station.getReading().value) {
                     aboveThresholdValues++;
                 }
             }
@@ -190,7 +190,7 @@ public class RegionalCentre {
             Instant.ofEpochSecond((long) reading.timestamp).toString()
         );
 
-        if (200 <= reading.value) {
+        if (this.ALERT_THRESHOLD <= reading.value) {
             stringified = (char)27 + "[31m" + stringified + (char)27 + "[0m";
         }
 
