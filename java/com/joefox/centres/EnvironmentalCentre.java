@@ -2,6 +2,7 @@ package com.joefox.centres;
 
 import com.joefox.agencies.Agency;
 import com.joefox.clients.RegionalCentreClient;
+import com.joefox.clients.MonitoringStationClient;
 import com.joefox.corba.*;
 import com.joefox.servants.EnvironmentalCentreServant;
 import com.joefox.threads.OrbThread;
@@ -132,6 +133,9 @@ public class EnvironmentalCentre {
             System.out.println("1) Register an agency");
             System.out.println("2) View a regional centre's log");
             System.out.println("3) Clear a monitoring stations log");
+            System.out.println("4) Turn off a monitoring station");
+            System.out.println("5) Turn on a monitoring station");
+            System.out.println("6) Reset a monitoring station");
 
             try {
                 option = Integer.parseInt(scanner.nextLine());
@@ -148,6 +152,15 @@ public class EnvironmentalCentre {
                     break;
                 case 3:
                     this.clearRegionalCentreLog(scanner);
+                    break;
+                case 4:
+                    this.turnOffMonitoringStation(scanner);
+                    break;
+                case 5:
+                    this.turnOnMonitoringStation(scanner);
+                    break;
+                case 6:
+                    this.resetMonitoringStation(scanner);
                     break;
                 default:
                     System.out.println("Enter a valid menu option\n\n\n\n");
@@ -213,6 +226,44 @@ public class EnvironmentalCentre {
             }
         }
         System.out.println("Unable to find a regional centre with that name");
+    }
 
+    private void turnOffMonitoringStation(Scanner scanner) {
+        System.out.println(
+            "Enter the name of the monitoring station to turn off"
+        );
+
+        String                    name = scanner.nextLine();
+        MonitoringStationClient client = this.getMonitoringStationClient(name);
+
+        client.turnOff();
+    }
+
+    private void turnOnMonitoringStation(Scanner scanner) {
+        System.out.println(
+            "Enter the name of the monitoring station to turn on"
+        );
+
+        String                    name = scanner.nextLine();
+        MonitoringStationClient client = this.getMonitoringStationClient(name);
+
+        client.turnOn();
+
+    }
+
+    private void resetMonitoringStation(Scanner scanner) {
+        System.out.println(
+            "Enter the name of the monitoring station to reset"
+        );
+
+        String                    name = scanner.nextLine();
+        MonitoringStationClient client = this.getMonitoringStationClient(name);
+
+        client.reset();
+
+    }
+
+    private MonitoringStationClient getMonitoringStationClient(String name) {
+        return new MonitoringStationClient(name, this.args);
     }
 }
