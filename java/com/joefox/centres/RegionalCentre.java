@@ -49,6 +49,7 @@ public class RegionalCentre {
         );
 
         this.bindToNamingService(args);
+        this.envCentreClient.registerRegionalCentre(this.centreName);
     }
 
     private void bindToNamingService(String args[]) {
@@ -92,7 +93,7 @@ public class RegionalCentre {
             this.servantThread.start();
         } catch ( Exception e ) {
             System.out.println(String.format(
-                "Unable to register the Monitoring Station with the " +
+                "Unable to register the Regional Centre with the " +
                 "naming service.\n%s",
                 e.getMessage()
             ));

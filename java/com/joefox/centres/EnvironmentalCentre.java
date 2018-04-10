@@ -26,6 +26,7 @@ public class EnvironmentalCentre {
 
     public EnvironmentalCentre(String name, String args[]) {
         this.agencies        = new ArrayList<Agency>();
+        this.args            = args;
         this.name            = name;
         this.regionalCentres = new ArrayList<RegionalCentreClient>();
         this.servant         = new EnvironmentalCentreServant(this);
@@ -126,9 +127,10 @@ public class EnvironmentalCentre {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("Environmental Centre\n");
+            System.out.println("\nEnvironmental Centre");
             System.out.println("Main Menu - Select an Option");
             System.out.println("1) Register an agency");
+            System.out.println("2) View a regional centre's log");
 
             try {
                 option = Integer.parseInt(scanner.nextLine());
@@ -139,6 +141,9 @@ public class EnvironmentalCentre {
             switch (option) {
                 case 1:
                     this.registerAgency(scanner);
+                    break;
+                case 2:
+                    this.viewRegionalCentreLog(scanner);
                     break;
                 default:
                     System.out.println("Enter a valid menu option\n\n\n\n");
@@ -172,5 +177,21 @@ public class EnvironmentalCentre {
         }
 
         this.agencies.add(agency);
+    }
+
+    private void viewRegionalCentreLog(Scanner scanner) {
+        System.out.println(
+            "Enter the name of the regional centre's logs to view"
+        );
+
+        String name = scanner.nextLine();
+
+        for (RegionalCentreClient client: regionalCentres) {
+            if (client.getCentreName().equals(name)) {
+                System.out.println(client.getLog());
+                return;
+            }
+        }
+        System.out.println("Unable to find a regional centre with that name");
     }
 }

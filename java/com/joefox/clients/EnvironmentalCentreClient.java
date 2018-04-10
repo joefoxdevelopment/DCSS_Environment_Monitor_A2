@@ -52,4 +52,7 @@ public class EnvironmentalCentreClient {
         this.centre.raise_alarm(regionalCentreName, location, reading);
     }
 
+    public void registerRegionalCentre(String regionalCentreName) {
+        this.centre.register_regional_centre(regionalCentreName);
+    }
 }

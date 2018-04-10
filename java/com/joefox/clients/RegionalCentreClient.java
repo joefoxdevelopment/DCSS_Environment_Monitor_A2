@@ -62,4 +62,20 @@ public class RegionalCentreClient {
             ));
         }
     }
+
+    public String getLog() {
+        try {
+            return this.centre.get_log();
+        } catch (Exception e) {
+            System.out.println(String.format(
+                "Unable to get log from regional centre \n%s",
+                e.getMessage()
+            ));
+        }
+        return "No logs available";
+    }
+
+    public String getCentreName() {
+        return this.centreName;
+    }
 }
