@@ -89,4 +89,16 @@ public class RegionalCentreClient {
     public String getCentreName() {
         return this.centreName;
     }
+
+    public String poll() {
+        try {
+            return this.centre.get_current_readings();
+        } catch (Exception e) {
+            System.out.println(String.format(
+                "Unable to poll regional centre \n%s",
+                e.getMessage()
+            ));
+        }
+        return "Unable to poll for updates";
+    }
 }

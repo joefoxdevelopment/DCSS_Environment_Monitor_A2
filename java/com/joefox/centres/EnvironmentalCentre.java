@@ -136,6 +136,8 @@ public class EnvironmentalCentre {
             System.out.println("4) Turn off a monitoring station");
             System.out.println("5) Turn on a monitoring station");
             System.out.println("6) Reset a monitoring station");
+            System.out.println("7) List regional centres");
+            System.out.println("8) Poll a regional centre");
 
             try {
                 option = Integer.parseInt(scanner.nextLine());
@@ -161,6 +163,12 @@ public class EnvironmentalCentre {
                     break;
                 case 6:
                     this.resetMonitoringStation(scanner);
+                    break;
+                case 7:
+                    this.listRegionalCentres();
+                    break;
+                case 8:
+                    this.getRegionalCentreReadings(scanner);
                     break;
                 default:
                     System.out.println("Enter a valid menu option\n\n\n\n");
@@ -248,7 +256,6 @@ public class EnvironmentalCentre {
         MonitoringStationClient client = this.getMonitoringStationClient(name);
 
         client.turnOn();
-
     }
 
     private void resetMonitoringStation(Scanner scanner) {
@@ -261,6 +268,28 @@ public class EnvironmentalCentre {
 
         client.reset();
 
+    }
+
+    private void listRegionalCentres() {
+        for (RegionalCentreClient client: regionalCentres) {
+            System.out.println(client.getCentreName());
+        }
+    }
+
+    private void getRegionalCentreReadings(Scanner scanner) {
+        System.out.println(
+            "Enter the name of the regional centre to poll for updates"
+        );
+
+        String name = scanner.nextLine();
+
+        for (RegionalCentreClient client: regionalCentres) {
+            if (client.getCentreName().equals(name)) {
+                System.out.println(client.poll());
+                return;
+            }
+        }
+        System.out.println("Unable to find a regional centre with that name");
     }
 
     private MonitoringStationClient getMonitoringStationClient(String name) {
