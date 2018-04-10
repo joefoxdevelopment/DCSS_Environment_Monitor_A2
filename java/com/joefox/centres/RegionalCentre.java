@@ -138,8 +138,6 @@ public class RegionalCentre {
                 reading.value
             );
         }
-
-        this.log.add(readingString);
     }
 
     private boolean verifyAlert(String location) {
@@ -184,12 +182,18 @@ public class RegionalCentre {
     }
 
     private String stringifyReading(Reading reading) {
-        return String.format(
+        String stringified = String.format(
             "Reading from %s %s, value: %s, taken at %s",
             reading.station_name,
             reading.station_location,
             reading.value,
             Instant.ofEpochSecond((long) reading.timestamp).toString()
         );
+
+        if (200 <= reading.value) {
+            stringified = (char)27 + "[31m" + stringified + (char)27 + "[0m";
+        }
+
+        return stringified;
     }
 }
