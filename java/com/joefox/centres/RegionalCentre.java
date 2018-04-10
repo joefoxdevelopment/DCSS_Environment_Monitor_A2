@@ -131,6 +131,11 @@ public class RegionalCentre {
                 reading.station_location
             ));
             System.out.println("High reading confirmed, passing to env centre");
+            this.envCentreClient.raiseAlarm(
+                this.centreName,
+                reading.station_location,
+                reading.value
+            );
         }
 
         this.log.add(readingString);

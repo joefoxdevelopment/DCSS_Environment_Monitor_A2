@@ -44,4 +44,12 @@ public class EnvironmentalCentreClient {
         }
     }
 
+    public void raiseAlarm(
+        String regionalCentreName,
+        String location,
+        float reading
+    ) {
+        this.centre.raise_alarm(regionalCentreName, location, reading);
+    }
+
 }

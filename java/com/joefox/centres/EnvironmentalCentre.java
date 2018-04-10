@@ -101,7 +101,7 @@ public class EnvironmentalCentre {
             "ALARM! ALARM! ALARM! ALARM! ALARM! ALARM! ALARM! ALARM! ALARM!" +
             "Raised by regional centre: %s\n" +
             "Raised at location: %s\n" +
-            "Reading value: %0.2f\n\n" +
+            "Reading value: %s\n\n" +
             "Agencies to alert, use the provided contact details:\n%s\n" +
             "ALARM! ALARM! ALARM! ALARM! ALARM! ALARM! ALARM! ALARM! ALARM!",
             regCentreName,
