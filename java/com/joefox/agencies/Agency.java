@@ -10,24 +10,10 @@ public class Agency {
     private String name;
     private String email;
 
-    public Agency(String name, String rawEmail) {
-        this.name      = name;
+    public Agency(String name, String email) {
+        this.email     = email;
         this.locations = new ArrayList<String>();
-
-        Pattern pattern = Pattern.compile(rawEmail);
-        Matcher matcher = pattern.matcher("/^.+@.+(\\..+)+$/");
-
-        boolean found = false;
-
-        while (matcher.find()) {
-            found = true;
-        }
-
-        if (!found) {
-            this.email = "No email";
-        } else {
-            this.email = rawEmail;
-        }
+        this.name      = name;
     }
 
     public String toString() {

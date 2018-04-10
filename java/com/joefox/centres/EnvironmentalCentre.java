@@ -99,7 +99,7 @@ public class EnvironmentalCentre {
 
         System.out.println(String.format(
             "ALARM! ALARM! ALARM! ALARM! ALARM! ALARM! ALARM! ALARM! ALARM!" +
-            "Raised by regional centre: %s\n" +
+            "\nRaised by regional centre: %s\n" +
             "Raised at location: %s\n" +
             "Reading value: %s\n\n" +
             "Agencies to alert, use the provided contact details:\n%s\n" +
@@ -170,5 +170,7 @@ public class EnvironmentalCentre {
             }
             agency.addLocation(input);
         }
+
+        this.agencies.add(agency);
     }
 }
