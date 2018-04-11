@@ -1,5 +1,3 @@
-/* Put all IDL in here */
-
 module com {
     module joefox {
         module corba {
