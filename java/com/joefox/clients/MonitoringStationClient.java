@@ -5,11 +5,31 @@ import com.joefox.corba.*;
 import org.omg.CORBA.*;
 import org.omg.CosNaming.*;
 
+/**
+ * Monitoring Station client manages the connection and invokes the server
+ *
+ * @author Joe Fox U1454236
+ * @version 2018-04-09
+ */
 public class MonitoringStationClient {
 
+    /**
+     * The name of the monitoring station connected to
+     */
     public String stationName;
+
+    /**
+     * The CORBA Monitoring Station instance
+     */
     private com.joefox.corba.MonitoringStation station;
 
+    /**
+     * Class constructor.
+     * Initialises the connection
+     *
+     * @param stationName - the name of the monitoring stations to connect to
+     * @param args        - the program args, has some CORBA params
+     */
     public MonitoringStationClient(String stationName, String args[]) {
         this.stationName = stationName;
 
@@ -39,6 +59,11 @@ public class MonitoringStationClient {
         }
     }
 
+    /**
+     * Get the location of the connected station
+     *
+     * @return the string with the station's location
+     */
     public String getStationLocation() {
         try {
             return this.station.get_station_location();
@@ -51,6 +76,11 @@ public class MonitoringStationClient {
         return "";
     }
 
+    /**
+     * Get a current reading from the station
+     *
+     * @return the current reading in a Reading object
+     */
     public Reading getReading() {
         try {
             return this.station.get_reading();
@@ -63,6 +93,9 @@ public class MonitoringStationClient {
         return null;
     }
 
+    /**
+     * Turn the connected monitoring station on
+     */
     public void turnOn() {
         try {
             this.station.turn_on();
@@ -74,6 +107,9 @@ public class MonitoringStationClient {
         }
     }
 
+    /**
+     * Turn the connected monitoring station off
+     */
     public void turnOff() {
         try {
             this.station.turn_off();
@@ -86,6 +122,9 @@ public class MonitoringStationClient {
 
     }
 
+    /**
+     * Reset the sensor value at the connected monitoring station
+     */
     public void reset() {
         try {
             this.station.reset();

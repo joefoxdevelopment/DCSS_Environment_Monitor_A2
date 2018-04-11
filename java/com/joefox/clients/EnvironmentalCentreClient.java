@@ -6,14 +6,27 @@ import com.joefox.corba.EnvironmentalCentreHelper;
 import org.omg.CORBA.*;
 import org.omg.CosNaming.*;
 
+/**
+ * Environmental Centre client to manage connection and invocations
+ *
+ * @author Joe Fox U1454236
+ * @version 2018-04-10
+ */
 public class EnvironmentalCentreClient {
 
     /**
      * Store a reference to the EnvironmentalCentre server implementation
      */
     private String centreName;
+
+    /**
+     * The CORBA server reference
+     */
     private com.joefox.corba.EnvironmentalCentre centre;
 
+    /**
+     * Class constructor. Initialised connection to the server
+     */
     public EnvironmentalCentreClient(String centreName, String args[]) {
         this.centreName = centreName;
 
@@ -44,6 +57,14 @@ public class EnvironmentalCentreClient {
         }
     }
 
+    /**
+     * Raise an alarm with the environmental centre
+     *
+     * @param regionalCentreName - the name of the regional centre sending the
+     *                             notification
+     * @param location           - the location the alarm was raised at
+     * @param reading            - the reading value
+     */
     public void raiseAlarm(
         String regionalCentreName,
         String location,
@@ -52,6 +73,11 @@ public class EnvironmentalCentreClient {
         this.centre.raise_alarm(regionalCentreName, location, reading);
     }
 
+    /**
+     * Register a regional centre with the environmental centre
+     *
+     * @param regionalCentreName - the name of the regional centre
+     */
     public void registerRegionalCentre(String regionalCentreName) {
         this.centre.register_regional_centre(regionalCentreName);
     }

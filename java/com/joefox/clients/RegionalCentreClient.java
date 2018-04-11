@@ -5,11 +5,30 @@ import com.joefox.corba.*;
 import org.omg.CORBA.*;
 import org.omg.CosNaming.*;
 
+/**
+ * Regional Centre client initialises connections and posts to server
+ *
+ * @author Joe Fox U1454236
+ * @version 2018-04-10
+ */
 public class RegionalCentreClient {
 
+    /**
+     * Name of the regional centre to connect to
+     */
     private String centreName;
+
+    /**
+     * Reference to the servant object
+     */
     private com.joefox.corba.RegionalCentre centre;
 
+    /**
+     * Class constructor
+     *
+     * @param centreName - the name of the regional centre to connect to
+     * @param args       - the program argument, has some CORBA options
+     */
     public RegionalCentreClient(String centreName, String args[]) {
         this.centreName = centreName;
 
@@ -40,6 +59,11 @@ public class RegionalCentreClient {
         }
     }
 
+    /**
+     * Register a monitoring station with the connected regional centre
+     *
+     * @param name - the name of the monitoring station to connect
+     */
     public void registerMonitoringStationWithRegionalCentre(String name) {
         try {
             this.centre.register_monitoring_station(name);
@@ -52,6 +76,11 @@ public class RegionalCentreClient {
         }
     }
 
+    /**
+     * Send a reading to the Regional Centre
+     *
+     * @param reading - the reading to submit
+     */
     public void sendReadingToRegionalCentre(Reading reading) {
         try {
             this.centre.submit_reading(reading);
@@ -63,6 +92,11 @@ public class RegionalCentreClient {
         }
     }
 
+    /**
+     * Retrieve the regional centre's log
+     *
+     * @return the regional centre's log in string format
+     */
     public String getLog() {
         try {
             return this.centre.get_log();
@@ -75,6 +109,9 @@ public class RegionalCentreClient {
         return "No logs available";
     }
 
+    /**
+     * Clear the regional centre's log
+     */
     public void clearLog() {
         try {
             this.centre.clear_log();
@@ -86,10 +123,18 @@ public class RegionalCentreClient {
         }
     }
 
+    /**
+     * Retrieve this regional centre's name
+     */
     public String getCentreName() {
         return this.centreName;
     }
 
+    /**
+     * Get the latest set of current readings from the regional centre
+     *
+     * @return the list of readings in String format
+     */
     public String poll() {
         try {
             return this.centre.get_current_readings();
