@@ -21,8 +21,8 @@ public class MonitoringStationUpdateThread extends Thread {
     /**
      * Class constructor
      *
-     * @param servant the MonitoringStationServant to get readings from
-     * TODO ADD the REGIONALCENTRECLIENT as a param
+     * @param servant - the MonitoringStationServant to get readings from
+     * @param client  - the regional centre client to post updates to
      */
     public MonitoringStationUpdateThread(
         MonitoringStationServant servant,
@@ -32,6 +32,11 @@ public class MonitoringStationUpdateThread extends Thread {
         this.servant = servant;
     }
 
+    /**
+     * Run the update loop to parse user input and send to regional centre
+     *
+     * Overridden from extended Thread class
+     */
     @Override
     public void run() {
         Reading reading;

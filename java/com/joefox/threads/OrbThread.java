@@ -15,17 +15,25 @@ import org.omg.CosNaming.*;
  */
 public class OrbThread extends Thread {
 
+    /**
+     * The CORBA orb object
+     */
     private ORB orb;
 
     /**
      * Class constructor
      *
-     * @param The ORB object to run
+     * @param orb - The ORB object to run
      */
     public OrbThread(ORB orb) {
         this.orb = orb;
     }
 
+    /**
+     * Run the ORB
+     *
+     * Overridden from extended Thread class
+     */
     @Override
     public void run() {
         this.orb.run();

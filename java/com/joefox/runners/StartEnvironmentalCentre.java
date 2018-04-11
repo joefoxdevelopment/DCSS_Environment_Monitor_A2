@@ -2,6 +2,12 @@ package com.joefox.runners;
 
 import com.joefox.centres.EnvironmentalCentre;
 
+/**
+ * Class to start Environmental Centre
+ *
+ * @author Joe Fox u1454236
+ * @version 2018-04-09
+ */
 public class StartEnvironmentalCentre {
 
     /**

@@ -3,12 +3,15 @@ package com.joefox.runners;
 import com.joefox.centres.RegionalCentre;
 
 /**
+ * Runner class for Regional Centre app
  *
+ * @author Joe Fox U1454236
+ * @version 2018-04-06
  */
 public class StartRegionalCentre {
 
     /**
-     * Verify args and start monitoring station
+     * Verify args and start regional centre
      */
     public static void main(String[] args) {
         if (null == args ||
