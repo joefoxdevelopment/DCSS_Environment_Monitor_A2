@@ -69,7 +69,11 @@ public class MonitoringStationServant extends MonitoringStationPOA {
         return this.stationLocation;
     }
 
-
+    /**
+     * Get the station name
+     *
+     * @return the name of the station
+     */
     public String get_station_name () {
         if (!this.on) {
             return null;
@@ -78,6 +82,9 @@ public class MonitoringStationServant extends MonitoringStationPOA {
         return this.stationName;
     }
 
+    /**
+     * Reset the station's sensor value
+     */
     public void reset () {
         if (!this.on) {
             return;
