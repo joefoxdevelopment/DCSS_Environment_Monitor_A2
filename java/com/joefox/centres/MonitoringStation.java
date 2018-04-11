@@ -20,7 +20,6 @@ import org.omg.CosNaming.*;
  *
  * @author Joe Fox U1454236
  * @version 2018-04-05
- *
  */
 public class MonitoringStation {
 
@@ -36,6 +35,13 @@ public class MonitoringStation {
     /**
      * Constructor for MonitoringStation objects.
      * Initialise the servant and bind to naming service and regional centre.
+     *
+     * @param stationName     - the unique name of this station,
+     *                          to be registered with the naming service
+     * @param stationLocation - the location of this station
+     * @param regionalCentre  - the name of the regional centre to connect to in
+     *                          the naming service
+     * @param args            - the program args, containing CORBA parameters
      */
     public MonitoringStation (
         String stationName,
@@ -54,7 +60,7 @@ public class MonitoringStation {
             stationName
         );
 
-        this.bindToNamingService(args);     //START A NEW THREAD FOR THIS
+        this.bindToNamingService(args);
         this.registerWithRegionalCentre();
         this.startCheckInThread();
 
@@ -66,7 +72,12 @@ public class MonitoringStation {
     }
 
     /**
-     * Bind this MonitoringStationServant to the naming service
+     * Bind this MonitoringStationServant to the naming service. Initialise the
+     * ORB and start a new thread for the servant to listen for invocations.
+     *
+     * Derived from examples in Gary Allen's DCSS week 16 lecture
+     *
+     * @param args - the program args, contains CORBA arguments
      */
     private void bindToNamingService(String args[]) {
         try {
@@ -117,9 +128,11 @@ public class MonitoringStation {
         }
     }
 
+    /**
+     * Start a thread to automatically post updates to the named regional centre
+     */
     private void startCheckInThread() {
         this.thread = new MonitoringStationUpdateThread(this.servant, this.client);
-
         this.thread.start();
     }
 

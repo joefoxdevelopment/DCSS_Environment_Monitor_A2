@@ -15,16 +15,53 @@ import org.omg.CosNaming.*;
 import org.omg.PortableServer.*;
 import org.omg.PortableServer.POA;
 
+/**
+ * Environmental Centre class.
+ * Contains user interface and connection to regional centres to initialise
+ *
+ * @author Joe Fox U1454236
+ * @version 2018-04-10
+ */
 public class EnvironmentalCentre {
 
+    /**
+     * The servant to listen for invocations from regional centres
+     */
     private EnvironmentalCentreServant servant;
+
+    /**
+     * A thread object that contains the servant
+     */
     private OrbThread orbThread;
 
+    /**
+     * The list of subscribed agencies
+     */
     private ArrayList<Agency> agencies;
+
+    /**
+     * The list of associated Regional Centres
+     *
+     * The client objects are stored to add a layer of exception handling
+     */
     private ArrayList<RegionalCentreClient> regionalCentres;
+
+    /**
+     * The program arguments. This contains some CORBA parameters as well
+     */
     private String args[];
+
+    /**
+     * the name of this Environmental Centre. To be passed to the naming service
+     */
     private String name;
 
+    /**
+     * Class constructor
+     *
+     * @param name - the name of the Environmental Centre
+     * @param args - the program arguments
+     */
     public EnvironmentalCentre(String name, String args[]) {
         this.agencies        = new ArrayList<Agency>();
         this.args            = args;
@@ -33,10 +70,17 @@ public class EnvironmentalCentre {
         this.servant         = new EnvironmentalCentreServant(this);
 
         this.bindToNamingService(args);
-
         this.mainMenu();
     }
 
+    /**
+     * Bind the servant to the naming service. Start a thread to listen for
+     * invocations
+     *
+     * Derived from Gary Allen's DCSS week 16 lecture notes
+     *
+     * @param args, the program arguments, contains CORBA parameters
+     */
     private void bindToNamingService(String args[]) {
         try {
             ORB orb = ORB.init(args, null);
@@ -85,6 +129,11 @@ public class EnvironmentalCentre {
         }
     }
 
+    /**
+     * Add a regional centre client to the list of regional centres
+     *
+     * @param regCentreName - the name of the regional centre
+     */
     public void registerRegionalCentre(String regCentreName) {
         this.regionalCentres.add(new RegionalCentreClient(
             regCentreName,
@@ -92,6 +141,13 @@ public class EnvironmentalCentre {
         ));
     }
 
+    /**
+     * Raise and display an alarm.
+     *
+     * @param regCentreName - the regional centre that raised this alert
+     * @param location      - the location the alert is raised at
+     * @param reading       - the reading value
+     */
     public void raiseAlarm(
         String regCentreName,
         String location,
@@ -113,6 +169,12 @@ public class EnvironmentalCentre {
         ));
     }
 
+    /**
+     * Return a String list of agencies subscribed to a location
+     *
+     * @param location - the location to alert agencies about
+     * @return the list of Stringified agencies
+     */
     private ArrayList<String> getAgenciesToAlert(String location) {
         ArrayList<String> toAlert = new ArrayList<String>();
         for (Agency agency: this.agencies) {
@@ -123,6 +185,11 @@ public class EnvironmentalCentre {
         return toAlert;
     }
 
+    /**
+     * Main menu for the application GUI. As it is a command line application,
+     * Menus are handled using System.out.println() and a java.util.Scanner is
+     * bound to System.in to listen to user input.
+     */
     private void mainMenu() {
         int option = 0;
         Scanner scanner = new Scanner(System.in);
@@ -143,6 +210,7 @@ public class EnvironmentalCentre {
                 option = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
                 System.out.println("Input needs to be a valid number\n\n\n\n");
+                continue;
             }
 
             switch (option) {
@@ -176,6 +244,11 @@ public class EnvironmentalCentre {
         }
     }
 
+    /**
+     * Retrieve agency details from the user and add the agency to the list
+     *
+     * @param scanner - the input parser
+     */
     private void registerAgency(Scanner scanner) {
         System.out.println("\n\n");
         System.out.println("Enter the agency name:\n");
@@ -204,6 +277,11 @@ public class EnvironmentalCentre {
         this.agencies.add(agency);
     }
 
+    /**
+     * Display the log for an associated regional centre
+     *
+     * @param scanner - the input parser to read the regional centre name
+     */
     private void viewRegionalCentreLog(Scanner scanner) {
         System.out.println(
             "Enter the name of the regional centre's logs to view"
@@ -220,6 +298,11 @@ public class EnvironmentalCentre {
         System.out.println("Unable to find a regional centre with that name");
     }
 
+    /**
+     * Clear the log of an associated regional centre
+     *
+     * @param scanner - the input parser to read the regional centre name
+     */
     private void clearRegionalCentreLog(Scanner scanner) {
         System.out.println(
             "Enter the name of the regional centre's logs to clear"
@@ -236,6 +319,11 @@ public class EnvironmentalCentre {
         System.out.println("Unable to find a regional centre with that name");
     }
 
+    /**
+     * Turn off an active monitoring station
+     *
+     * @param scanner - the input parser to read the monitoring station name
+     */
     private void turnOffMonitoringStation(Scanner scanner) {
         System.out.println(
             "Enter the name of the monitoring station to turn off"
@@ -247,6 +335,11 @@ public class EnvironmentalCentre {
         client.turnOff();
     }
 
+    /**
+     * Turn on an inactive monitoring station
+     *
+     * @param scanner - the input parser to read the monitoring station name
+     */
     private void turnOnMonitoringStation(Scanner scanner) {
         System.out.println(
             "Enter the name of the monitoring station to turn on"
@@ -258,6 +351,11 @@ public class EnvironmentalCentre {
         client.turnOn();
     }
 
+    /**
+     * Reset the sensor on a monitoring station
+     *
+     * @param scanner - the input parser to read the monitoring station name
+     */
     private void resetMonitoringStation(Scanner scanner) {
         System.out.println(
             "Enter the name of the monitoring station to reset"
@@ -270,12 +368,21 @@ public class EnvironmentalCentre {
 
     }
 
+    /**
+     * Display a list of all stored regional centres
+     */
     private void listRegionalCentres() {
         for (RegionalCentreClient client: regionalCentres) {
             System.out.println(client.getCentreName());
         }
     }
 
+    /**
+     * Display all current readings from monitoring stations associated with a
+     * connected regional centre
+     *
+     * @param scanner - the input parser to read the monitoring station name
+     */
     private void getRegionalCentreReadings(Scanner scanner) {
         System.out.println(
             "Enter the name of the regional centre to poll for updates"
@@ -292,6 +399,12 @@ public class EnvironmentalCentre {
         System.out.println("Unable to find a regional centre with that name");
     }
 
+    /**
+     * Connect to a monitoring station for power and reset operations
+     *
+     * @param name - the name of the monitoring station to connect to
+     * @return a client to handle connections to the monitoring station
+     */
     private MonitoringStationClient getMonitoringStationClient(String name) {
         return new MonitoringStationClient(name, this.args);
     }
